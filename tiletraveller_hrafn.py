@@ -90,15 +90,17 @@ def play_one_move(col, row, valid_directions,coins):
         coins = pull_lever(col, row, coins)
     return victory, col, row, coins
 
+keep_playing = 'y'
+while keep_playing == 'y':
+    # The main program starts here
+    victory = False
+    row = 1
+    col = 1
+    coins = 0
 
-# The main program starts here
-victory = False
-row = 1
-col = 1
-coins = 0
-
-while not victory:
-    valid_directions = find_directions(col, row)
-    print_directions(valid_directions)
-    victory, col, row, coins = play_one_move(col, row, valid_directions,coins)
-print("Victory! Total coins {}.".format(coins))
+    while not victory:
+        valid_directions = find_directions(col, row)
+        print_directions(valid_directions)
+        victory, col, row, coins = play_one_move(col, row, valid_directions,coins)
+    print("Victory! Total coins {}.".format(coins))
+    keep_playing = input('Play again (y/n): ').lower()
