@@ -1,8 +1,12 @@
+import random
+
 # Constants
 NORTH = 'n'
 EAST = 'e'
 SOUTH = 's'
 WEST = 'w'
+YES = 'y'
+NO = 'n'
 
 
 def move(direction, col, row):
@@ -61,26 +65,27 @@ def find_directions(col, row):
         valid_directions = SOUTH + WEST
     return valid_directions
 
+
 def pull_lever(col,row,coins):
     ''' Find if there is a lever on the tile and offer the option to pull it '''
 
     if (col == 1 and row == 2) or (col == 2 and row == 2) or (col == 2 and row == 3) or (col == 3 and row == 2):
-        choice = input('Pull a lever (y/n): ')
-        choice = choice.lower()
+        choice = random.choice([YES, NO])
+        print('Pull a lever (y/n): {}'.format(choice))
+
         if choice == 'y':
             coins += 1
             print('You received 1 coin, your total is now {}.'.format(coins))
     return coins
 
 
-
-
-def play_one_move(col, row, valid_directions,coins):
+def play_one_move(col, row, valid_directions,coins,move_counter):
     ''' Plays one move of the game
         Return if victory has been obtained and updated col,row '''
     victory = False
-    direction = input("Direction: ")
-    direction = direction.lower()
+    direction = random.choice([NORTH, EAST, SOUTH, WEST])
+    print("Direction: {}".format(direction))
+    move_counter += 1
 
     if not direction in valid_directions:
         print("Not a valid direction!")
@@ -88,8 +93,11 @@ def play_one_move(col, row, valid_directions,coins):
         col, row = move(direction, col, row)
         victory = is_victory(col, row)
         coins = pull_lever(col, row, coins)
-    return victory, col, row, coins
+    return victory, col, row, coins, move_counter
 
+
+my_seed = input('Input seed: ')
+random.seed(my_seed)
 keep_playing = 'y'
 while keep_playing == 'y':
     # The main program starts here
@@ -97,10 +105,11 @@ while keep_playing == 'y':
     row = 1
     col = 1
     coins = 0
+    move_counter = 0
 
     while not victory:
         valid_directions = find_directions(col, row)
         print_directions(valid_directions)
-        victory, col, row, coins = play_one_move(col, row, valid_directions,coins)
-    print("Victory! Total coins {}.".format(coins))
+        victory, col, row, coins,move_counter = play_one_move(col, row, valid_directions,coins,move_counter)
+    print("Victory! Total coins {}. Moves {}".format(coins,move_counter))
     keep_playing = input('Play again (y/n): ').lower()
