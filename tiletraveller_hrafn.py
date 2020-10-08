@@ -96,7 +96,7 @@ def play_one_move(col, row, valid_directions,coins,move_counter):
     return victory, col, row, coins, move_counter
 
 
-my_seed = input('Input seed: ')
+my_seed = int(input('Input seed: '))
 random.seed(my_seed)
 keep_playing = 'y'
 while keep_playing == 'y':
@@ -111,5 +111,5 @@ while keep_playing == 'y':
         valid_directions = find_directions(col, row)
         print_directions(valid_directions)
         victory, col, row, coins,move_counter = play_one_move(col, row, valid_directions,coins,move_counter)
-    print("Victory! Total coins {}. Moves {}".format(coins,move_counter))
+    print("Victory! Total coins {}. Moves {}.".format(coins,move_counter))
     keep_playing = input('Play again (y/n): ').lower()
